@@ -1,0 +1,29 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: olm-policy-generator
+placementBindingDefaults:
+  name: olm-k8-clusters
+policyDefaults:
+  # categories: []
+  complianceType: "musthave"
+  controls: 
+    - CM-2 Baseline
+  namespace: k8-policies
+  # Use an existing placement rule so that placement bindings can be consolidated
+  placement:
+    placementRulePath: rules/placementrule.yaml
+  remediationAction: enforce
+  severity: high
+policies:
+- name: olm
+  disabled: false
+  manifests:
+    - path: manifests/
+  remediationAction: enforce
+  categories:
+    - CM Configuration Management
+  controls:
+    - CM-2 Baseline
+  standards:
+    - NIST 800-53
