@@ -12,7 +12,7 @@ This project is a proof of concept. It aims to demonstrate how OLM can easily ge
 
 ## Installation and configuration
 
-The procedures to configure ACM for OLM installation and maintenance is available in [OPERATIONS.md](./OPERATIONS.md).
+The procedures to configure ACM for OLM installation and maintenance is available in [SETUP.md](./SETUP.md).
 
 ## Findings
 
