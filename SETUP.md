@@ -38,7 +38,7 @@ EOF
 
 ### Managed Kubernetes cluster preparation
 
-Create a namespace and a serviceaccount for ACM.
+Create a namespace and a ServiceAccount for ACM.
 ~~~
 $ kubectl create ns acm
 $ kubectl create sa acm -n acm
@@ -62,7 +62,7 @@ subjects:
 EOF
 ~~~
 
-Create a serviceaccount token (auto-generated) for the previously created serviceaccount.
+Create a ServiceAccount token (auto-generated) for the previously created ServiceAccount.
 ~~~
 $ kubectl apply -f - <<EOF
 apiVersion: v1
@@ -82,7 +82,7 @@ Retrieve the URL of the API of the Kubernetes cluster. This is for instance avai
  ~~~
  This gives `https://192.168.130.1:37015` with my local setup.
 
- Get the generated token from the serviceaccount secret with type kubernetes.io/service-account-token created in the previous step.
+ Get the generated token from the ServiceAccount secret with type kubernetes.io/service-account-token created in the previous step.
  ~~~
  $ export TOKEN=$(kubectl get secret acm-token -n acm -o jsonpath="{.data.token}" | base64 -d)
  ~~~
