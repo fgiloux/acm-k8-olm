@@ -1,0 +1,16 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: compliance-operator-catalog
+  namespace: olm
+spec:
+  sourceType: grpc
+  grpcPodConfig:
+    securityContextConfig: restricted 
+  image: quay.io/fgiloux/compliance-operator-index:v0.1.59
+  displayName: Compliance Operator Catalog
+  publisher: Fred 
+  updateStrategy:
+    registryPoll: 
+      interval: 30m

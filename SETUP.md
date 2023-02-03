@@ -1,10 +1,10 @@
 # Setup
 
-These are the instructions for installing and configuring OLM on Kubernetes clusters through ACM.
+These are instructions for installing and configuring OLM on Kubernetes clusters through ACM.
 
 ## Local environment
 
-The instructions in this page assume that you already have available ACM and a Kubernetes cluster to be managed by ACM.
+The instructions in this page assume that you already have ACM and a Kubernetes cluster to be managed by ACM available.
 For setting up a local test environment please confer to [LOCAL.md](./LOCAL.md)
 
 ## Cluster registration
@@ -119,11 +119,11 @@ With a policy it is possible to enforce the creation of resources that match the
 
 The [policy generator plugin](https://github.com/stolostron/policy-generator-plugin) allows to easily create policies from a set of manifest. If not already available on your system follow the instructions to install kustomize and the plugin.
 
-This repository contains [OLM v0.23.1 manifests](./policies/olm/manifests), the required [configuration of the policy plugin generator](./policies/olm/policyGenerator.yaml) and a [PlacementRule](./policies/olm/rules/placementrule.yaml) for the generation of the desired policy.
+This repository contains [OLM v0.23.1 manifests](./policies/olm/manifests), the required [configuration of the policy plugin generator](./policies/policyGenerator.yaml) and a [PlacementRule](./policies/rules/placementrule.yaml) for the generation of the desired policy.
 
 In the root directory of this repository it can be done with the following command.
 ~~~
-$ kustomize build policies/olm/ --enable-alpha-plugins > policy-olm.yaml
+$ kustomize build policies/ --enable-alpha-plugins > policies.yaml
 ~~~
 
 ### Policy deployment
@@ -153,7 +153,7 @@ EOF
 When the add-ons have been installed the new policy can get applied to ACM hub cluster.
 ~~~
 $ oc new-project k8-policies
-$ oc create -f policy-olm.yaml
+$ oc create -f policies.yaml
 ~~~
 
 The PlacementRule in the policy ensures that the manifests get copied from the hub cluster to the newly registered Kubernetes managed cluster.

@@ -14,6 +14,12 @@ This project is a proof of concept. It aims to demonstrate how OLM can easily ge
 
 The procedures to configure ACM for OLM installation and maintenance is available in [SETUP.md](./SETUP.md).
 
+## Creation and installation of a custom catalog
+
+A subset of the operators available on OpenShift is relevant on other Kubernetes distributions. This part of the proof of concept demonstrates the creation and deployment of a custom catalog. This custom catalog contains a single operator, the compliance operator.
+
+The procedure is available in [CATALOG.md](./CATALOG.md).
+
 ## Findings
 
 Findings are documented in [FINDINGS.md](./FINDINGS.md)

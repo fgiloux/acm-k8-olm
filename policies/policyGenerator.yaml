@@ -19,7 +19,7 @@ policies:
 - name: olm
   disabled: false
   manifests:
-    - path: manifests/
+    - path: olm-manifests/
   remediationAction: enforce
   categories:
     - CM Configuration Management
@@ -27,3 +27,26 @@ policies:
     - CM-2 Baseline
   standards:
     - NIST 800-53
+- name: catalog
+  disabled: false
+  manifests:
+    - path: catalog-manifests/
+  remediationAction: enforce
+  categories:
+    - CM Configuration Management
+  controls:
+    - CM-2 Baseline
+  standards:
+    - NIST 800-53
+- name: compliance
+  disabled: false
+  manifests:
+    - path: compliance-manifests/
+  remediationAction: enforce
+  categories:
+    - CM Configuration Management
+  controls:
+    - CM-2 Baseline
+  standards:
+    - NIST 800-53
+

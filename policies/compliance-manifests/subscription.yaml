@@ -1,0 +1,14 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  labels:
+    operators.coreos.com/compliance.operators: ""
+  name: compliance
+  namespace: compliance-operator
+spec:
+  channel: release-0.1
+  name: compliance-operator
+  source: compliance-operator-catalog
+  sourceNamespace: olm
+
