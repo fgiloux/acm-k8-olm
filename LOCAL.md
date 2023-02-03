@@ -1,6 +1,6 @@
 # Local environment
 
-These are instructions for setting up a local test environment with ACM and a Kubernetes cluster managed by install.sh
+These are instructions for setting up a local test environment with ACM and a Kubernetes cluster managed by it.
 
 ## OpenShift local (CRC)
 
@@ -8,7 +8,7 @@ Tested with CRC version: 2.12.0+74565a6 (OpenShift version: 4.11.18).
 
 Instructions on how to install OpenShift local are available in [Red Hat customer portal](https://access.redhat.com/documentation/en-us/red_hat_openshift_local/2.13/html/getting_started_guide/installation_gsg).
 
-To satifsfy the PoC requirements in terms of resources it is recommended to allocate 6 cores and 16GB of memory to OpenShift local.
+To satisfy the PoC requirements in terms of resources it is recommended to allocate 6 cores and 16GB of memory to OpenShift local.
 This can be done by using following commands to start it up:
 
 ~~~
@@ -28,7 +28,7 @@ Tested with ACM 2.6.
 
 ACM can be installed on OpenShift by using OLM. Simply go to Operators > OperatorHub in the Web Console and search for "Advanced Cluster Management". Select it and click "Install".
 
-The next step is to create a pull secret, which will be used for installation of the ACM components on the Kubernetes cluster. The images for these components are indeed pulled from Red Hat registry, which requires authentication.
+The next step is to create a pull secret, which will be used for the installation of the ACM components on the Kubernetes cluster. The images for these components are indeed pulled from Red Hat registry, which requires authentication.
 
 The definition for the pull secret can be downloaded from [Red Hat website](https://console.redhat.com/openshift/install/pull-secret)
 
@@ -84,6 +84,25 @@ The configuration does the following:
 - deviate from the default of binding the loopback IP and use the IP of the gateway of the CRC network instead.
 - map the ports used by an ingress gateway to the host.
 This is to allow connectivity from OpenShift local. There are multiple ways of discovering this IP: using the `ss` command or using a tool like Cockpit.
+
+Pulling images from Red Hat registry requires credentials. These credentials can be mounted into the node so that the container engine can use them by adding the following to the cluster configuration under `- role: control-plane`.
+~~~
+extraMounts:
+  - containerPath: /var/lib/kubelet/config.json
+    hostPath: /path/to/my/secret.json
+~~~
+
+Alternatively the credentials can be added to the node of a running kind cluster with the following commands
+~~~
+# copy the config to a place where the kubelet expects it
+$ podman cp "config.json" "${node_name}:/var/lib/kubelet/config.json"
+# restart kubelet to pick up the config
+$ podman exec "${node_name}" systemctl restart kubelet.service
+~~~
+config.json is the container engine config file having the credentials for the registry.
+node_name can simply get retrieved with `kubectl get nodes`
+
+The subject is discussed in [FINDINGS.md](./FINDINGS.md).
 
 For people having systemd and which prefer creating rootless containers, the following command can be used to allow cgroups delegation required by kind:
 ~~~
@@ -143,3 +162,11 @@ The last bit is to open firewalls for the communication between OpenShift local 
  ~~~
 - *192.168.130.1 is the IP address of the CRC gateway used previously.*
 - *37017 is the port used for the API of the kind cluster. This may differ in your installation.*
+
+The compliance operator relies on a deprecated label that has been removed in Kubernetes 1.24: `node-role.kubernetes.io/master` but is still present in OpenShift 4.11.
+The new label is `node-role.kubernetes.io/control-plane`.
+As this label is not available on the kind node it needs to be added for the Pods of the compliance operator to get scheduled.
+
+~~~
+$ kubectl label node kind-1-control-plane node-role.kubernetes.io/master=
+~~~
