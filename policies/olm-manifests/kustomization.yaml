@@ -2,3 +2,4 @@
 resources:
   - crds.yaml
   - olm.yaml
+  - olm-verify.yaml

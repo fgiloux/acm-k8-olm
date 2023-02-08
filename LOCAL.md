@@ -151,7 +151,7 @@ metadata:
 EOF
 ~~~
 
-CoreDNS need to be restared. They can just be deleted for the purpose and get automatically recreated.
+CoreDNS pods need to be restared. They can just be deleted for the purpose. They get automatically recreated.
 
 The last bit is to open firewalls for the communication between OpenShift local and the kind cluster. Using iptables the following commands can be used. An equivalent would need to be run for firewalld or another firewall API:
 

@@ -1,0 +1,19 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: package-server-status
+spec:
+  remediationAction: inform 
+  severity: high
+  object-templates:
+  - complianceType: musthave
+    objectDefinition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: ClusterServiceVersion
+      metadata:
+        namespace: olm
+        name: packageserver
+      status:
+        phase: Succeeded   # check the csv status to determine if the package server is running or not
+
