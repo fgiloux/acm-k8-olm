@@ -9,6 +9,9 @@ For setting up a local test environment please confer to [LOCAL.md](./LOCAL.md)
 
 ## Cluster registration
 
+The managed cluster can get imported through the web console. In the menu bar select "Infastructure" > "Clusters" and click on the "Import cluster" button.
+Alternatively a declarative approach can be taken by following the steps below.
+
 ### Hub cluster preparation
 
 Log into the hub cluster.
@@ -128,7 +131,7 @@ $ kustomize build policies/ --enable-alpha-plugins > policies.yaml
 
 ### Policy deployment
 
-If it is not already done activate the add-ons for the governance-policy-framework on the hub cluster.
+If it is not already done activate the add-ons for the governance-policy-framework on the hub cluster. When a cluster is imported through the web console a KlusterletAddonConfig resource gets automatically created with the governance-policy-framework add-ons activated.
 ~~~
 $ cat <<EOF | oc apply -f -
 apiVersion: agent.open-cluster-management.io/v1
